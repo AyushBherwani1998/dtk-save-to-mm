@@ -15,6 +15,9 @@ import {
 } from "./smart-account/delegation";
 import { createLocalSignatoryFactory } from "./signers/localSigner";
 import { createSmartAccount } from "./smart-account/smart-account";
+import { getEthBalance } from "./smart-account/utils";
+import { Address } from "viem";
+import { getNFTBalance } from "./smart-account/nft";
 
 const App = () => {
   const [step, setStep] = useState(1);
@@ -31,6 +34,8 @@ const App = () => {
   const [guestAddress, setGuestAddress] = useState<string | null>(null);
   const [metamaskAddress, setMetamaskAddress] = useState<string | null>(null);
   const [transactionHash, setTransactionHash] = useState<string | null>(null);
+  const [ethBalance, setEthBalance] = useState<string>("0");
+  const [nftBalance, setNftBalance] = useState<string>("0");
 
   const shortenAddress = (address: string | null) => {
     return address
@@ -63,6 +68,18 @@ const App = () => {
     setIsLoading(false);
   };
 
+  const fetchBalances = async (address: Address) => {
+    try {
+      const balance = await getEthBalance(address);
+      setEthBalance(balance.toString());
+
+      const nftBalance = await getNFTBalance(address);
+      setNftBalance(nftBalance.toString());
+    } catch (error) {
+      console.error("Error fetching balances:", error);
+    }
+  };
+
   const handleSaveToMetamask = async () => {
     setIsLoading(true);
     const injected = createInjectedProviderSignatoryFactory({
@@ -73,6 +90,7 @@ const App = () => {
     await delegation(guestAccount!, owner, lineaSepolia);
     setInjectedAccount(signatory);
     setMetamaskAddress(owner);
+    await fetchBalances(owner);
     setStep(4);
     setIsLoading(false);
   };
@@ -89,8 +107,9 @@ const App = () => {
 
   const handleMintNFT = async () => {
     setIsLoading(true);
-    const hash = await redeemDelegation(injectedAccount!, lineaSepolia);
-    setTransactionHash(hash);
+    const receipt = await redeemDelegation(injectedAccount!, lineaSepolia);
+    setTransactionHash(receipt.transactionHash);
+    await fetchBalances(metamaskAddress! as `0x${string}`);
     setStep(5);
     setIsLoading(false);
   };
@@ -117,6 +136,18 @@ const App = () => {
               <span className="address">{shortenAddress(metamaskAddress)}</span>
             </div>
           </div>
+          {metamaskAddress && (
+            <div className="balance-info">
+              <div className="address-item">
+                <span className="address-label">Metamask ETH Balance:</span>
+                <span className="address">{ethBalance}</span>
+              </div>
+              <div className="address-item">
+                <span className="address-label">Metamask NFT Balance:</span>
+                <span className="address">{nftBalance}</span>
+              </div>
+            </div>
+          )}
           <div className="action-container">
             {step === 1 && (
               <button

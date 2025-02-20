@@ -18,6 +18,7 @@ import {
 import { Account, Address, Chain, Transport, WalletClient } from "viem";
 import { getDelegation, storeDelegation } from "./storage";
 import { encodeExecutionData } from "./nft";
+import { publicClient } from "./utils";
 
 export const rootDelegation = async (
   delegator: MetaMaskSmartAccount<Implementation>,
@@ -105,5 +106,9 @@ export const redeemDelegation = async (
     chain,
   });
 
-  return transaction;
+  const receipt = await publicClient(chain).waitForTransactionReceipt({
+    hash: transaction,
+  });
+
+  return receipt;
 };

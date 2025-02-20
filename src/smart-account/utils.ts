@@ -1,9 +1,10 @@
 import { randomBytes } from "@noble/hashes/utils";
-import { Chain, createPublicClient, http, toHex } from "viem";
+import { Address, Chain, createPublicClient, http, toHex } from "viem";
 import {
   createBundlerClient,
   createPaymasterClient,
 } from "viem/account-abstraction";
+import { lineaSepolia } from "viem/chains";
 
 export const createSalt = () => toHex(randomBytes(8));
 
@@ -19,6 +20,14 @@ export const bundlerClient = (chain: Chain) => {
     chain,
     transport: http(import.meta.env.VITE_BUNDLER_URL),
   });
+};
+
+export const getEthBalance = async (address: Address) => {
+  const balance = await publicClient(lineaSepolia).getBalance({
+    address,
+  });
+
+  return Number(balance) / 10 ** 18;
 };
 
 export const paymasterClient = () => {
@@ -39,6 +48,25 @@ export const nftAbi = [
     name: "safeMint",
     outputs: [],
     stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "owner",
+        type: "address",
+      },
+    ],
+    name: "balanceOf",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
     type: "function",
   },
 ];

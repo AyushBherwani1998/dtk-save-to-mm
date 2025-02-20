@@ -1,42 +1,161 @@
-#root {
-  max-width: 1280px;
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
+
+body {
+  background-color: #f8f9fa;
+  margin: 0;
+  padding: 0;
+}
+
+.app-container {
+  font-family: "Poppins", sans-serif;
+  max-width: 800px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 40px 20px;
+}
+
+.app-header {
   text-align: center;
+  margin-bottom: 40px;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.app-header h1 {
+  color: #2c3e50;
+  font-weight: 600;
+  font-size: 2.5em;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.app-main {
+  display: flex;
+  justify-content: center;
 }
 
 .card {
-  padding: 2em;
+  background-color: #ffffff;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  max-width: 600px;
 }
 
-.read-the-docs {
-  color: #888;
+.address-container {
+  margin-bottom: 30px;
+}
+
+.address-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.address-item:hover {
+  background-color: #e9ecef;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.address-label {
+  font-weight: 500;
+  color: #495057;
+}
+
+.address {
+  font-family: "Roboto Mono", monospace;
+  font-size: 0.9em;
+  color: #495057;
+  background-color: #e9ecef;
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+
+.action-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 100px;
+}
+
+.action-button {
+  background-color: transparent;
+  border: none;
+  color: #000000;
+  padding: 12px 24px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 0;
+  transition: all 0.3s ease;
+  width: 100%;
+  max-width: 300px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.action-button:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: #000000;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.action-button:disabled {
+  color: #bdc3c7;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+  background-color: transparent;
+}
+
+.success-message {
+  color: #27ae60;
+  font-weight: 500;
+  text-align: center;
+  font-size: 1.1em;
+}
+
+.success-container {
+  text-align: center;
+}
+
+.transaction-link {
+  display: inline-block;
+  margin-top: 10px;
+  color: #000000;
+  text-decoration: none;
+  padding: 8px 16px;
+  background-color: transparent;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+
+.transaction-link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 600px) {
+  .app-container {
+    padding: 20px 10px;
+  }
+
+  .card {
+    padding: 30px 20px;
+  }
+
+  .address-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .address {
+    margin-top: 10px;
+  }
 }
